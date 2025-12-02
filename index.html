@@ -3,439 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Completa la frase</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            /* Paleta de colores profesional */
-            --bg-color: #0f172a; /* Azul muy oscuro/gris */
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-secondary: #64748b;
-            --primary: #2563eb; /* Azul corporativo */
-            --primary-hover: #1d4ed8;
-            --correct: #10b981; /* Verde esmeralda */
-            --wrong: #ef4444; /* Rojo suave */
-            --border-color: #e2e8f0;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            color: var(--text-main);
-        }
-
-        .container {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            padding: 50px;
-            width: 100%;
-            max-width: 750px;
-            text-align: center;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        h1 {
-            color: var(--text-main);
-            font-weight: 700;
-            font-size: 2rem;
-            margin-bottom: 16px;
-            letter-spacing: -0.025em;
-        }
-
-        p {
-            color: var(--text-secondary);
-            font-size: 1.125rem;
-            line-height: 1.7;
-            margin-bottom: 30px;
-        }
-
-        /* Botón Principal */
-        .btn-main {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 16px 32px;
-            font-size: 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.2s, transform 0.1s;
-            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
-        }
-
-        .btn-main:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .btn-main:active {
-            transform: scale(0.98);
-        }
-
-        /* Barra de progreso */
-        .progress-container {
-            width: 100%;
-            background-color: #f1f5f9;
-            height: 6px;
-            border-radius: 99px;
-            margin-bottom: 40px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background-color: var(--primary);
-            width: 0%;
-            transition: width 0.4s ease;
-        }
-
-        /* Área de preguntas */
-        .question-text {
-            font-size: 1.5rem;
-            font-weight: 500;
-            color: var(--text-main);
-            margin-bottom: 40px;
-            min-height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Grid de opciones */
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-
-        @media (min-width: 600px) {
-            .options-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        .option-btn {
-            background-color: white;
-            border: 1px solid var(--border-color);
-            padding: 20px 15px;
-            border-radius: 8px;
-            font-size: 1rem;
-            color: var(--text-main);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Inter', sans-serif;
-            font-weight: 500;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-        }
-
-        .option-btn:hover:not(:disabled) {
-            border-color: var(--primary);
-            color: var(--primary);
-            background-color: #eff6ff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .option-btn:disabled {
-            cursor: default;
-            opacity: 0.8;
-        }
-
-        /* Estados Correcto/Incorrecto */
-        .option-btn.correct {
-            background-color: var(--correct) !important;
-            color: white !important;
-            border-color: var(--correct) !important;
-            box-shadow: none !important;
-        }
-
-        .option-btn.incorrect {
-            background-color: var(--wrong) !important;
-            color: white !important;
-            border-color: var(--wrong) !important;
-            box-shadow: none !important;
-        }
-
-        /* Frase completa (Feedback) */
-        .full-phrase-box {
-            background-color: #f8fafc;
-            border-left: 4px solid var(--primary);
-            padding: 20px;
-            text-align: left;
-            margin-top: 20px;
-            border-radius: 0 8px 8px 0;
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .full-phrase-box strong {
-            color: var(--primary);
-        }
-
-        /* Pantallas */
-        .screen {
-            display: none;
-        }
-        .screen.active {
-            display: block;
-            animation: fadeUp 0.5s ease;
-        }
-
-        /* Animaciones */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .tracker {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            text-align: right;
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-
-    </style>
+    <title>Adivina la palabra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="index.js"></script>
+    
+  
 </head>
 <body>
 
-    <div class="container">
+    <div class="game-console">
+        
         <div id="start-screen" class="screen active">
-            <h1>Completa la frase</h1>
-            <p>Este juego trata de elegir la palabra correcta para completar una frase incompleta.</p>
-            <button class="btn-main" onclick="startGame()">Iniciar Juego</button>
+            <div style="font-size: 5rem; margin-bottom: 20px;">🔍</div>
+            <h1>Adivina la palabra</h1>
+            <p>En equipos seleccionen la palabra correcta para completar la frase.</p>
+            <button class="btn-action" onclick="startGame()">COMENZAR</button>
         </div>
 
-        <div id="game-screen" class="screen">
-            <div class="tracker" id="tracker-text">Ejercicio 1 de 16</div>
-            <div class="progress-container">
-                <div id="progress-bar" class="progress-bar"></div>
+        <div id="game-screen" class="screen"> 
+            
+            <div class="game-header">
+                <span id="level-indicator">NIVEL 1</span>
+            </div>
+            
+            <div class="progress-track">
+                <div id="progress-bar" class="progress-fill"></div>
             </div>
 
-            <div id="question-text" class="question-text">
+            <div id="question-text" class="question-display animate__animated animate__fadeIn">
                 </div>
 
             <div id="options-container" class="options-grid">
                 </div>
 
-            <div id="full-phrase-box" class="full-phrase-box">
-                </div>
-
-            <div style="margin-top: 30px; height: 50px;">
-                <button id="next-btn" class="btn-main" style="display: none;" onclick="nextQuestion()">Siguiente</button>
+            <div class="feedback-area">
+                <div id="feedback-text" class="feedback-text animate__animated animate__fadeInLeft"></div>
+                <button id="next-btn" class="btn-next animate__animated animate__zoomIn" onclick="nextQuestion()">Siguiente ➜</button>
             </div>
+
         </div>
 
         <div id="end-screen" class="screen">
-            <h1>Fin del ejercicio</h1>
-            <p>Has completado todas las frases sobre conceptos de seguros.</p>
-            <button class="btn-main" onclick="location.reload()">Volver a jugar</button>
+            <div style="font-size: 6rem; margin-bottom: 20px;">🎖️</div>
+            <h1>¡Finalizo el juego!</h1>
+            <p>El equipo que haya terminado con mas puntos es el ganador.</p>
+            <button class="btn-action" onclick="location.reload()">Reiniciar</button>
         </div>
+
     </div>
 
-    <script>
-        // Datos del juego - Complejidad aumentada en las opciones
-        // Todas son frases, no hay preguntas.
-        const sentences = [
-            {
-                text: "El _______ es la persona o bien protegido por el seguro, que puede ser distinto al contratante.",
-                options: ["Tomador", "Asegurado", "Beneficiario"],
-                answer: 1, 
-                full: "El <strong>Asegurado</strong> es la persona o bien protegido por el seguro."
-            },
-            {
-                text: "Se denomina _______ al documento legal del contrato donde se detallan todas las condiciones y coberturas.",
-                options: ["Póliza", "Prima", "Acta"],
-                answer: 0,
-                full: "Se denomina <strong>Póliza</strong> al documento legal del contrato donde se detallan las condiciones."
-            },
-            {
-                text: "El _______ es quien firma el contrato y tiene la obligación de pagar la prima a la aseguradora.",
-                options: ["Asegurado", "Tomador", "Agente"],
-                answer: 1,
-                full: "El <strong>Tomador</strong> es quien firma el contrato y paga la prima."
-            },
-            {
-                text: "Para mantener el seguro activo, es obligatorio realizar el pago conocido como _______.",
-                options: ["Indemnización", "Fianza", "Prima"],
-                answer: 2,
-                full: "Para mantener el seguro activo, es obligatorio realizar el pago conocido como <strong>Prima</strong>."
-            },
-            {
-                text: "Un _______ es técnicamente el evento incierto (como un robo) antes de que suceda.",
-                options: ["Siniestro", "Riesgo", "Daño"],
-                answer: 1,
-                full: "Un <strong>Riesgo</strong> es el evento incierto antes de que suceda."
-            },
-            {
-                text: "Cuando el evento incierto efectivamente ocurre y activa la cobertura, pasa a llamarse _______.",
-                options: ["Riesgo", "Incidente", "Siniestro"],
-                answer: 2,
-                full: "Cuando el evento ocurre y activa la cobertura, pasa a llamarse <strong>Siniestro</strong>."
-            },
-            {
-                text: "La _______ es el monto económico que la compañía entrega tras validar la ocurrencia de un siniestro.",
-                options: ["Prima", "Indemnización", "Bonificación"],
-                answer: 1,
-                full: "La <strong>Indemnización</strong> es el monto económico que la compañía entrega tras el siniestro."
-            },
-            {
-                text: "Los seguros de _______ protegen la integridad física, incluyendo vida, salud e invalidez.",
-                options: ["Personas", "Humanos", "Particulares"],
-                answer: 0,
-                full: "Los seguros de <strong>Personas</strong> protegen la integridad física, vida y salud."
-            },
-            {
-                text: "El seguro de auto y hogar se clasifican específicamente dentro de los Seguros de _______.",
-                options: ["Activos", "Propiedad", "Bienes"],
-                answer: 2,
-                full: "El seguro de auto y hogar se clasifican dentro de los Seguros de <strong>Bienes o Patrimoniales</strong>."
-            },
-            {
-                text: "La responsabilidad civil general cubre los daños que el asegurado cause a _______.",
-                options: ["Sus bienes", "Terceros", "Empleados"],
-                answer: 1,
-                full: "La responsabilidad civil general cubre los daños que el asegurado cause a <strong>Terceros</strong>."
-            },
-            {
-                text: "El seguro de maquinaria y equipo es una subcategoría de los Seguros _______.",
-                options: ["Industriales", "Empresariales", "Patrimoniales"],
-                answer: 1,
-                full: "El seguro de maquinaria y equipo es una subcategoría de los Seguros <strong>Empresariales</strong>."
-            },
-            {
-                text: "Los Seguros _______ están relacionados directamente con dinero o transacciones, como el de caución.",
-                options: ["Financieros", "Monetarios", "Bancarios"],
-                answer: 0,
-                full: "Los Seguros <strong>Financieros</strong> están relacionados con dinero o transacciones."
-            },
-            {
-                text: "Si ocurre un incendio, el _______ paga la prima previamente y la _______ paga la indemnización.",
-                options: ["Asegurado / Tomador", "Tomador / Aseguradora", "Aseguradora / Tomador"],
-                answer: 1,
-                full: "El <strong>Tomador</strong> paga la prima y la <strong>Aseguradora</strong> paga la indemnización."
-            },
-            {
-                text: "El _______ es el evento posible, mientras que el _______ es el evento consumado.",
-                options: ["Siniestro / Riesgo", "Peligro / Accidente", "Riesgo / Siniestro"],
-                answer: 2,
-                full: "El <strong>Riesgo</strong> es posible; el <strong>Siniestro</strong> es el evento consumado."
-            },
-            {
-                text: "La _______ es la entidad corporativa que asume el riesgo a cambio de una prima.",
-                options: ["Aseguradora", "Financiera", "Agencia"],
-                answer: 0,
-                full: "La <strong>Aseguradora</strong> es la entidad que asume el riesgo."
-            },
-            {
-                text: "El seguro de crédito pertenece a los seguros _______, mientras que el de gastos médicos a los de _______.",
-                options: ["Empresariales / Salud", "Financieros / Personas", "Bienes / Vida"],
-                answer: 1,
-                full: "El de crédito es <strong>Financiero</strong> y el de gastos médicos es de <strong>Personas</strong>."
-            }
-        ];
-
-        let currentIndex = 0;
-        let isAnswering = true; // Control para evitar clics múltiples
-
-        // Elementos DOM
-        const startScreen = document.getElementById('start-screen');
-        const gameScreen = document.getElementById('game-screen');
-        const endScreen = document.getElementById('end-screen');
-        const questionText = document.getElementById('question-text');
-        const optionsContainer = document.getElementById('options-container');
-        const fullPhraseBox = document.getElementById('full-phrase-box');
-        const nextBtn = document.getElementById('next-btn');
-        const progressBar = document.getElementById('progress-bar');
-        const trackerText = document.getElementById('tracker-text');
-
-        function startGame() {
-            startScreen.classList.remove('active');
-            gameScreen.classList.add('active');
-            currentIndex = 0;
-            loadSentence();
-        }
-
-        function loadSentence() {
-            isAnswering = true;
-            const item = sentences[currentIndex];
-            
-            // Actualizar UI
-            trackerText.innerText = `Ejercicio ${currentIndex + 1} de ${sentences.length}`;
-            progressBar.style.width = `${(currentIndex / sentences.length) * 100}%`;
-            
-            // Limpiar
-            questionText.innerText = item.text;
-            optionsContainer.innerHTML = '';
-            fullPhraseBox.style.display = 'none';
-            nextBtn.style.display = 'none';
-
-            // Crear botones
-            item.options.forEach((opt, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.innerText = opt;
-                btn.onclick = () => handleAnswer(index, btn);
-                optionsContainer.appendChild(btn);
-            });
-        }
-
-        function handleAnswer(selectedIndex, btnElement) {
-            if (!isAnswering) return;
-            isAnswering = false;
-
-            const item = sentences[currentIndex];
-            const allButtons = optionsContainer.querySelectorAll('.option-btn');
-
-            if (selectedIndex === item.answer) {
-                // Correcto
-                btnElement.classList.add('correct');
-            } else {
-                // Incorrecto
-                btnElement.classList.add('incorrect');
-                // Mostrar la correcta
-                allButtons[item.answer].classList.add('correct');
-            }
-
-            // Deshabilitar botones
-            allButtons.forEach(btn => btn.disabled = true);
-
-            // Mostrar frase completa
-            fullPhraseBox.innerHTML = item.full;
-            fullPhraseBox.style.display = 'block';
-
-            // Mostrar botón siguiente
-            nextBtn.style.display = 'inline-block';
-            if (currentIndex === sentences.length - 1) {
-                nextBtn.innerText = "Finalizar";
-                progressBar.style.width = '100%';
-            } else {
-                nextBtn.innerText = "Siguiente";
-            }
-        }
-
-        function nextQuestion() {
-            if (currentIndex < sentences.length - 1) {
-                currentIndex++;
-                loadSentence();
-            } else {
-                gameScreen.classList.remove('active');
-                endScreen.classList.add('active');
-            }
-        }
-    </script>
 </body>
 </html>
