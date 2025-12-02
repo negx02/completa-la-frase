@@ -204,7 +204,7 @@ function handleAnswer(isCorrect, btnElement, currentOptionsObj) {
     nextBtn.style.display = 'block';
 
     if (currentIndex === sentences.length - 1) {
-        nextBtn.innerText = "Ver Resultados";
+        nextBtn.innerText = "Finalizar";
         progressBar.style.width = '100%';
     } else {
         nextBtn.innerText = "Siguiente ➜";
